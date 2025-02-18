@@ -18,8 +18,8 @@ jobs:
       - name: login to docker hub
         id: docker-hub
         env:
-          username: ${{secrets.DOCKERHUB_USERNAME}}
-          password: ${{secrets.DOCKERHUB_TOKEN}}
+          username: ${{secrets.DOCKER_USERNAME}}
+          password: ${{secrets.DOCKER_PASSWORD}}
         run: |
           docker login -u $username -p $password 
       
@@ -27,10 +27,10 @@ jobs:
         id: build-docker-image
         run: |
           ls -la 
-          docker build . -f Dockerfile -t ${{ secrets.DOCKERHUB_USERNAME }}/tasky-app:latest -t ${{ secrets.DOCKERHUB_USERNAME }}/tasky-app:${{ env.sha_short }}
+          docker build . -f Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/tasky-app:latest -t ${{ secrets.DOCKER_USERNAME }}/tasky-app:${{ env.sha_short }}
         
       - name: push the docker image
         id: push-docker-image
         run: |
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/tasky-app:latest
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/tasky-app:${{ env.sha_short }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/tasky-app:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/tasky-app:${{ env.sha_short }}
